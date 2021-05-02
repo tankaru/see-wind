@@ -1,7 +1,7 @@
 
 function set_coords_info(text){
     const elem = document.getElementById('location_coords');
-    elem.setAttribute('text', `value: ${text};`);
+    elem.setAttribute('value', text);
 }
 
 function init(){
