@@ -1,3 +1,21 @@
+function generate_box(){
+    const parent = document.getElementById('boxes');
+    for (let i = 0; i < 10; i++){
+        const html = `
+            <a-box 
+                id="wind_particle_${i}" 
+                position="0 ${30-i*3} 0" 
+                radius="10" 
+                color="#ff0000" 
+                gps-entity-place="latitude: 35.43494; longitude: 139.61281;" 
+                animation="property: rotation; to: 0 360 720; loop: true; dur: 5000; dir: alternate; easing: easeInOutSine;">
+            </a-box>
+        `;
+        parent.insertAdjacentHTML('beforeend', html);
+
+    }
+
+}
 
 function set_coords_info(text){
     const elem = document.getElementById('location_coords');
@@ -25,6 +43,7 @@ function show_coords() {
 function init(){
     console.log('init');
     show_coords();
+    generate_box();
 
 
 }
