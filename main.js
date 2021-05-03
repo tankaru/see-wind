@@ -8,7 +8,7 @@ function generate_box(){
 
         let model = document.createElement('a-box');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-        model.setAttribute('rotation', '0 180 0');
+        model.setAttribute('rotation', '0 0 0');
         model.setAttribute('animation-mixer', '');
         model.setAttribute('position', `0 ${30-i*3} 0`);
 
