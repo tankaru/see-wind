@@ -8,6 +8,7 @@ function generate_box(){
 
         let model = document.createElement('a-box');
         model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        model.setAttribute('id', `particle${i}`);
         model.setAttribute('rotation', '0 0 0');
         model.setAttribute('animation-mixer', '');
         model.setAttribute('position', `0 ${30-i*3} 0`);
@@ -48,10 +49,25 @@ function show_coords() {
         navigator.geolocation.getCurrentPosition(success, error);
     }
 }
+function move_box() {
+    // 0.5秒ごとに実行
+    let latitude = 35.43494;
+    let longitude = 139.61281;
+    setInterval(() => {
+        for (let i = 0; i < 10; i++) {
+            const elem = document.getElementById(`particle${i}`);
+            model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+            latitude += 0.00001;
+            longitude += 0.00001;
+        }
+
+    }, 500);
+}
 function init(){
     console.log('init');
     show_coords();
     generate_box();
+    move_box();
 
 
 }
