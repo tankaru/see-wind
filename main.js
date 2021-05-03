@@ -1,35 +1,30 @@
-function generate_box(){
-    const parent = document.getElementById('boxes');
-    let scene = document.querySelector('a-scene');
-
-    for (let i = 0; i < 10; i++){
-        let latitude = 35.43494;
-        let longitude = 139.61281;
-
-        let model = document.createElement('a-box');
-        model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-        model.setAttribute('id', `particle${i}`);
-        model.setAttribute('rotation', '0 0 0');
-        model.setAttribute('animation-mixer', '');
-        model.setAttribute('position', `0 ${30-i*3} 0`);
 
 
-        /*
-        model.addEventListener('loaded', () => {
-            window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
-        });
-        */
+const body = document.getElementsByTagName('body')[0];
+//console.log(body);
+body.addEventListener('touchstart', function(event) {
 
-        scene.appendChild(model);
-    }
+}, false);
+body.addEventListener('touchend', function(event) {
+
+}, false);
 
 
+body.addEventListener('click', function(event) {
+
+}, false);
+
+
+function set_wind_info(text){
+    const elem = document.getElementById('wind_info');
+    elem.setAttribute('text', `value: ${text};`);
 }
 
 function set_coords_info(text){
     const elem = document.getElementById('location_coords');
-    elem.setAttribute('value', text);
+    elem.setAttribute('text', `value: ${text};`);
 }
+
 function show_coords() {
     function success(position) {
         const latitude = position.coords.latitude;
@@ -48,28 +43,65 @@ function show_coords() {
         set_coords_info('Locating...');
         navigator.geolocation.getCurrentPosition(success, error);
     }
+    window.addEventListener('deviceorientation', function(event) {
+        console.log('方角       : ' + event.alpha);
+        console.log('上下の傾き : ' + event.beta);
+        console.log('左右の傾き : ' + event.gamma);
+        
+        console.log('コンパスの向き : ' + event.webkitCompassHeading);
+        console.log('コンパスの精度 : ' + event.webkitCompassAccuracy);
+        const elem = document.getElementById('compass');
+        elem.setAttribute('text', `value: ${event.alpha};`);
+      });
 }
-function move_box() {
-    // 0.5秒ごとに実行
-    let latitude = 35.43494;
-    let longitude = 139.61281;
-    setInterval(() => {
-        latitude += 0.00001;
-        longitude += 0.00001;
-        for (let i = 0; i < 10; i++) {
-            const elem = document.getElementById(`particle${i}`);
-            elem.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
 
+function NN(n){
+    return ("00" + n).slice(-2);
+}
+
+function show_current_weather(){
+
+    const d = new Date();
+    const current_time = `${d.getFullYear()}${NN(d.getMonth() + 1)}${NN(d.getDate())}${NN(d.getHours())}0000`;
+    const URL = `https://www.jma.go.jp/bosai/amedas/data/map/${current_time}.json`;
+
+    const request = new XMLHttpRequest();
+    request.addEventListener("load", (e) => {
+        if (e.target.status != 200) {
+            console.log(e.target.status + ':' + e.target.statusText);
+            return;
         }
+        const json = JSON.parse(e.target.responseText);
+        //console.log(JSON.stringify(json, null, 4));
+        const location = "11001";
+        const wind = json[location].wind[0];
+        const wind_direction = json[location].windDirection[0];
+        //console.log(json);
+        console.log(wind);
+        set_wind_info(`Now: ${current_time}\n wind: ${wind}\n direction: ${wind_direction}`);
 
-    }, 500);
+        const elem = document.getElementById('wind_particle');
+        const x = 0, y = 3, z = -5;
+        const durs = 2; //s
+        const dx = wind * durs;
+        elem.setAttribute('position', `${x} ${y} ${z}`);
+        elem.setAttribute('animation', `property: position; to: ${x+dx} ${y} ${z}; dir: normal; easing: linear; dur: ${durs}000; loop: true`);
+
+    });
+    request.addEventListener("error", () => {
+        console.log("Http Request Error");
+    });
+
+    request.open("GET", URL);
+    //request.open("GET", URL + encodeURIComponent(Query[0] + strings[0] + Query[1] + strings[strings.length - 1] + Query[2]));
+    request.send();
 }
+
 function init(){
     console.log('init');
-    show_coords();
-    generate_box();
-    move_box();
 
+    show_current_weather();
+    show_coords();
 
 }
 window.onload = function (){
