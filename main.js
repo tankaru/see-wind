@@ -54,11 +54,12 @@ function move_box() {
     let latitude = 35.43494;
     let longitude = 139.61281;
     setInterval(() => {
+        latitude += 0.00001;
+        longitude += 0.00001;
         for (let i = 0; i < 10; i++) {
             const elem = document.getElementById(`particle${i}`);
-            model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-            latitude += 0.00001;
-            longitude += 0.00001;
+            elem.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+
         }
 
     }, 500);
