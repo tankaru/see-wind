@@ -1,19 +1,27 @@
 function generate_box(){
     const parent = document.getElementById('boxes');
-    for (let i = 0; i < 10; i++){
-        const html = `
-            <a-box 
-                id="wind_particle_${i}" 
-                position="0 ${30-i*3} 0" 
-                radius="10" 
-                color="#ff0000" 
-                gps-entity-place="latitude: 35.43494; longitude: 139.61281;" 
-                animation="property: rotation; to: 0 360 720; loop: true; dur: 5000; dir: alternate; easing: easeInOutSine;">
-            </a-box>
-        `;
-        parent.insertAdjacentHTML('beforeend', html);
+    let scene = document.querySelector('a-scene');
 
+    for (let i = 0; i < 10; i++){
+        let latitude = 35.43494;
+        let longitude = 139.61281;
+
+        let model = document.createElement('a-box');
+        model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        model.setAttribute('rotation', '0 180 0');
+        model.setAttribute('animation-mixer', '');
+        model.setAttribute('position', `0 ${30-i*3} 0`);
+
+
+        /*
+        model.addEventListener('loaded', () => {
+            window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
+        });
+        */
+
+        scene.appendChild(model);
     }
+
 
 }
 
