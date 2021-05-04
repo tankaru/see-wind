@@ -86,6 +86,7 @@ function set_particle(elem_id, D, L, alpha, beta){
 }
 
 let fixed_alpha = 0;
+let alpha_set = false;
 function update_particle_direction(alpha){
     const D = 10;
     const L = 20;
@@ -98,12 +99,9 @@ function update_particle_direction(alpha){
     if (!isNumber(beta)) return;
 
     console.log(alpha, beta);
-    
-    if (Math.abs(alpha - fixed_alpha) > 90){
-        set_particle('wind_particle', D, L, alpha, beta);
-        fixed_alpha = alpha;
-    }
-    
+    if (alpha_set) return;
+    set_particle('wind_particle', D, L, alpha, beta);
+    alpha_set = true;
 }
 
 function update_particle_direction_test(){
