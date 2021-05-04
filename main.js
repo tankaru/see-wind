@@ -89,15 +89,15 @@ let fixed_alpha = 0;
 function update_particle_direction(alpha){
     const D = 10;
     const L = 20;
-    const beta = (parseInt(wind_direction)-1)*360/16;
-
-    console.log(alpha, beta);
+    const beta = Math.max(parseInt(wind_direction)-1, 0)*360/16;
 
     const isNumber = function(value) {
     return ((typeof value === 'number') && (isFinite(value)));
     };
     if (!isNumber(alpha)) return;
     if (!isNumber(beta)) return;
+
+    console.log(alpha, beta);
     
     if (Math.abs(alpha - fixed_alpha) > 90){
         set_particle('wind_particle', D, L, alpha, beta);
