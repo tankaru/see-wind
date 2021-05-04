@@ -90,6 +90,14 @@ function update_particle_direction(alpha){
     const D = 10;
     const L = 20;
     const beta = (parseInt(wind_direction)-1)*360/16;
+
+    console.log(alpha, beta);
+
+    const isNumber = function(value) {
+    return ((typeof value === 'number') && (isFinite(value)));
+    };
+    if (!isNumber(alpha)) return;
+    if (!isNumber(beta)) return;
     
     if (Math.abs(alpha - fixed_alpha) > 5){
         set_particle('wind_particle', D, L, alpha, beta);
@@ -99,16 +107,11 @@ function update_particle_direction(alpha){
 }
 
 function update_particle_direction_test(){
-    const D = 10;
-    const L = 20;
-    let alpha = 50;
-    const beta = 30;
-    
-    
+
     setInterval(() => {
-        set_particle('wind_particle', D, L, alpha, beta);
-        console.log("Interval type1");
-        alpha += 1;
+        update_particle_direction(180);
+        
+
     }, 1000);
 
 }
@@ -122,6 +125,7 @@ function show_current_weather(){
     const d = new Date();
     const current_time = `${d.getFullYear()}${NN(d.getMonth() + 1)}${NN(d.getDate())}${NN(d.getHours())}0000`;
     const URL = `https://www.jma.go.jp/bosai/amedas/data/map/${current_time}.json`;
+    console.log(URL);
 
     const request = new XMLHttpRequest();
     request.addEventListener("load", (e) => {
@@ -139,7 +143,7 @@ function show_current_weather(){
         set_wind_info(`Now: ${current_time}\n wind: ${wind_speed} m/s\n direction: ${direction[wind_direction]}`);
 
 
-        //update_particle_direction_test();
+        update_particle_direction_test();
 
         /*
         const elem = document.getElementById('wind_particle');
