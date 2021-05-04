@@ -99,7 +99,7 @@ function update_particle_direction(alpha){
     if (!isNumber(alpha)) return;
     if (!isNumber(beta)) return;
     
-    if (Math.abs(alpha - fixed_alpha) > 5){
+    if (Math.abs(alpha - fixed_alpha) > 90){
         set_particle('wind_particle', D, L, alpha, beta);
         fixed_alpha = alpha;
     }
