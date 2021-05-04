@@ -64,7 +64,7 @@ function show_coords() {
         const elem = document.getElementById('compass');
         elem.setAttribute('text', `value: ${event.alpha};`);
 
-        update_particle_direction(event.alpha);
+        update_particle_direction(parseInt(event.alpha));
       });
 }
 function rad(deg){
