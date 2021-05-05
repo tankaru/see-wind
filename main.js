@@ -38,11 +38,26 @@ function update_wind_shape(){
     console.log(wind);
     document.getElementById('location_info').insertAdjacentHTML('beforebegin', wind.name);
 
+    /*
     const elem = document.getElementById('wind_shape');
     //elem.setAttribute('rotation', "0 150 0");
     elem.setAttribute('rotation', `0 ${360 - parseInt(Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
     //set_notice(`${wind_direction} ${parseInt(Math.max(parseInt(wind_direction)-1, 0)*360/16)}`);
     //elem.setAttribute('scale', `1 1 ${parseInt(wind_speed)}`);
+    */
+
+    let scene = document.querySelector('a-scene');
+    let model = document.createElement('a-obj-model');
+    model.setAttribute('id', "wind_shape");
+    model.setAttribute('gps-entity-place', "latitude: 35.43509; longitude: 139.61227;");
+    model.setAttribute('src', "#arrow-obj");
+    model.setAttribute('mtl', "#arrow-mtl");
+    model.setAttribute('scale', "1 1 1");
+    model.setAttribute('position', "0 30 0");
+    model.setAttribute('rotation', `0 ${360 - parseInt(Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
+
+    scene.appendChild(model);
+    //<a-obj-model id="wind_shape" gps-entity-place="latitude: 35.43509; longitude: 139.61227;" src="#arrow-obj" mtl="#arrow-mtl" scale="1 1 1" position="0 30 0" rotation="0 45 0"></a-obj-model>
 }
 
 function NN(n){
