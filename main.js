@@ -36,6 +36,7 @@ function update_wind_shape(){
 
     const wind = get_nearest_wind(current_lat, current_lon, amedas_json);
     console.log(wind);
+    document.getElementById('location_info').insertAdjacentHTML('beforebegin', wind.name);
 
     const elem = document.getElementById('wind_shape');
     //elem.setAttribute('rotation', "0 150 0");
