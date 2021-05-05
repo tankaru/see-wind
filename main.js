@@ -58,7 +58,7 @@ function get_current_weather(){
         set_notice(`Now: ${current_time}\n wind: ${wind_speed} m/s\n direction: ${direction[wind_direction]}`);
 
 
-        update_wind_shape();
+        //update_wind_shape();
 
         /*
         const elem = document.getElementById('wind_particle');
