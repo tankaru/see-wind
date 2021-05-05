@@ -29,7 +29,7 @@ function update_wind_shape(){
     const elem = document.getElementById('wind_shape');
     elem.setAttribute('rotation', "0 45 0");
     //set_notice(`${wind_direction} ${parseInt(Math.max(parseInt(wind_direction)-1, 0)*360/16)}`);
-    elem.setAttribute('scale', `1 1 ${parseInt(wind_speed)}`);
+    //elem.setAttribute('scale', `1 1 ${parseInt(wind_speed)}`);
 }
 
 function NN(n){
