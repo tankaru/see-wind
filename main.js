@@ -82,10 +82,44 @@ function get_current_weather(){
     //request.open("GET", URL + encodeURIComponent(Query[0] + strings[0] + Query[1] + strings[strings.length - 1] + Query[2]));
     request.send();
 }
+function get_location() {
+    function success(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
 
-function set_notice(text){
-    document.getElementById('notice').innerHTML = `<pre>${text}</pre>`;
+        set_coords_info(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    }
+
+    function error() {
+        set_coords_info('Unable to retrieve your location');
+    }
+
+    if (!navigator.geolocation) {
+        set_coords_info('Geolocation is not supported by your browser');
+    } else {
+        set_coords_info('Locating...');
+        navigator.geolocation.getCurrentPosition(success, error);
+    }
+    window.addEventListener('deviceorientation', function(event) {
+        console.log('方角       : ' + event.alpha);
+        console.log('上下の傾き : ' + event.beta);
+        console.log('左右の傾き : ' + event.gamma);
+        
+        console.log('コンパスの向き : ' + event.webkitCompassHeading);
+        console.log('コンパスの精度 : ' + event.webkitCompassAccuracy);
+
+        set_device_info(`alpha: ${event.alpha}, compass: ${event.webkitCompassHeading}`);
+
+
+      });
 }
+function set_notice(text){
+    document.getElementById('weather_info').innerHTML = `<pre>${text}</pre>`;
+}
+function set_device_info(text){
+    document.getElementById('device_info').innerHTML = `<pre>${text}</pre>`;
+}
+
 
 function init(){
     console.log('init');
