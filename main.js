@@ -86,6 +86,7 @@ function set_notice(text){
 function init(){
     console.log('init');
     set_notice('windy');
+    get_current_weather();
 }
 window.onload = function (){
     console.log('onload');
