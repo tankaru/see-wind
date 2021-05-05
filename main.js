@@ -1,6 +1,10 @@
 let wind_speed = 0;
 let wind_direction = 1;
 
+let current_lat;
+let current_lon;
+let amedas_json;
+
 let direction = {};
 const directions_text = `0	No wind	無風
 1	N	北
@@ -26,9 +30,16 @@ for (let line of directions_lines){
 }
 
 function update_wind_shape(){
+    if (!current_lon) return;
+    if (!current_lat) return;
+    if (!amedas_json) return;
+
+    const wind = get_nearest_wind(current_lat, current_lon, amedas_json);
+    console.log(wind);
+
     const elem = document.getElementById('wind_shape');
     //elem.setAttribute('rotation', "0 150 0");
-    elem.setAttribute('rotation', `0 ${360 - parseInt(Math.max(parseInt(wind_direction)-1, 0)*360/16)} 0`);
+    elem.setAttribute('rotation', `0 ${360 - parseInt(Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
     //set_notice(`${wind_direction} ${parseInt(Math.max(parseInt(wind_direction)-1, 0)*360/16)}`);
     //elem.setAttribute('scale', `1 1 ${parseInt(wind_speed)}`);
 }
@@ -52,6 +63,7 @@ function get_current_weather(){
             return;
         }
         const json = JSON.parse(e.target.responseText);
+        amedas_json = json;
         //console.log(JSON.stringify(json, null, 4));
         const location = "11001";
         wind_speed = json[location].wind[0];
@@ -87,7 +99,12 @@ function get_location() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
+        current_lat = latitude;
+        current_lon = longitude;
+
         set_location_info(`Latitude: ${latitude} \n Longitude: ${longitude}`);
+
+        update_wind_shape();
     }
 
     function error() {
@@ -122,6 +139,78 @@ function set_device_info(text){
 function set_location_info(text){
 
     document.getElementById('location_info').innerHTML = `<pre>${text}</pre>`;
+}
+//404 Motivation Not Found, 地球上の2地点間の距離を取得するアルゴリズム(ヒュベニ or 球面三角法)比較, https://tech-blog.s-yoshiki.com/2018/05/92/
+function hubeny(lat1, lng1, lat2, lng2) {
+    function rad(deg) {
+        return deg * Math.PI / 180;
+    }
+    //degree to radian
+    lat1 = rad(lat1);
+    lng1 = rad(lng1);
+    lat2 = rad(lat2);
+    lng2 = rad(lng2);
+
+    // 緯度差
+    var latDiff = lat1 - lat2;
+    // 経度差算
+    var lngDiff = lng1 - lng2;
+    // 平均緯度
+    var latAvg = (lat1 + lat2) / 2.0;
+    // 赤道半径
+    var a = 6378137.0;
+    // 極半径
+    var b = 6356752.314140356;
+    // 第一離心率^2
+    var e2 = 0.00669438002301188;
+    // 赤道上の子午線曲率半径
+    var a1e2 = 6335439.32708317;
+
+    var sinLat = Math.sin(latAvg);
+    var W2 = 1.0 - e2 * (sinLat * sinLat);
+
+    // 子午線曲率半径M
+    var M = a1e2 / (Math.sqrt(W2) * W2);
+    // 卯酉線曲率半径
+    var N = a / Math.sqrt(W2);
+
+    const t1 = M * latDiff;
+    const t2 = N * Math.cos(latAvg) * lngDiff;
+    return Math.sqrt((t1 * t1) + (t2 * t2));
+}
+function get_nearest_wind(lat, lon, amedas_data){
+    let wind_list = [];
+    for (let key in amedas){
+        const obserber = amedas[key];
+        const obs_lat = obserber.lat[0] + obserber.lat[1]/60;
+        const obs_lon = obserber.lon[0] + obserber.lon[1]/60;
+        const distance = hubeny(lat, lon, obs_lat, obs_lon);
+        wind_list.push({
+            id : key,
+            name: obserber.kjName,
+            distance: distance,
+        });
+    }
+    wind_list.sort(function(a,b){
+        if( a.distance < b.distance ) return -1;
+        if( a.distance > b.distance ) return 1;
+        return 0;
+    });
+
+    for (let i = 0; i < wind_list.length; i++){
+        const wind = wind_list[i];
+        const location = wind.id;
+        if (!amedas_data[location].wind) continue;
+        if (!amedas_data[location].windDirection) continue;
+        return {
+            id: wind.id,
+            name: wind.name,
+            wind_speed: amedas_data[location].wind[0],
+            wind_direction: amedas_data[location].windDirection[0],
+        };
+
+    }
+
 }
 
 function init(){
