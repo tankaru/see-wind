@@ -37,7 +37,8 @@ function NN(n){
 
 function get_current_weather(){
 
-    const d = new Date();
+    let d = new Date();
+    d.setMinutes(d.getMinutes() - 15); //時刻変更直後はファイルが更新されていなさそうなので15分前の時刻で取得
     const current_time = `${d.getFullYear()}${NN(d.getMonth() + 1)}${NN(d.getDate())}${NN(d.getHours())}0000`;
     const URL = `https://www.jma.go.jp/bosai/amedas/data/map/${current_time}.json`;
     console.log(URL);
