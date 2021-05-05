@@ -27,8 +27,8 @@ for (let line of directions_lines){
 
 function update_wind_shape(){
     const elem = document.getElementById('wind_shape');
-    elem.setAttribute('rotation', `0 ${Math.max(parseInt(wind_direction)-1, 0)*360/16} 0`);
-    elem.setAttribute('scale', `${parseFloat(wind_speed)} 1  1`);
+    elem.setAttribute('rotation', `0 ${parseInt(Math.max(parseInt(wind_direction)-1, 0)*360/16)} 0`);
+    elem.setAttribute('scale', `${parseInt(wind_speed)} 1  1`);
 }
 
 function NN(n){
