@@ -87,17 +87,17 @@ function get_location() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        set_coords_info(`Latitude: ${latitude}, Longitude: ${longitude}`);
+        set_location_info(`Latitude: ${latitude}, Longitude: ${longitude}`);
     }
 
     function error() {
-        set_coords_info('Unable to retrieve your location');
+        set_location_info('Unable to retrieve your location');
     }
 
     if (!navigator.geolocation) {
-        set_coords_info('Geolocation is not supported by your browser');
+        set_location_info('Geolocation is not supported by your browser');
     } else {
-        set_coords_info('Locating...');
+        set_location_info('Locating...');
         navigator.geolocation.getCurrentPosition(success, error);
     }
     window.addEventListener('deviceorientation', function(event) {
@@ -119,7 +119,10 @@ function set_notice(text){
 function set_device_info(text){
     document.getElementById('device_info').innerHTML = `<pre>${text}</pre>`;
 }
+function set_location_info(text){
 
+    document.getElementById('location_info').innerHTML = `<pre>${text}</pre>`;
+}
 
 function init(){
     console.log('init');
