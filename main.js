@@ -49,7 +49,7 @@ function update_wind_shape(){
     let scene = document.querySelector('a-scene');
     let model = document.createElement('a-obj-model');
     model.setAttribute('id', "wind_shape");
-    model.setAttribute('gps-entity-place', "latitude: 35.43432; longitude: 139.61367;");
+    model.setAttribute('gps-entity-place', `latitude: ${current_lat}; longitude: ${current_lon};`);
     model.setAttribute('src', "#arrow-obj");
     model.setAttribute('mtl', "#arrow-mtl");
     model.setAttribute('scale', `1 1 ${parseInt(wind.wind_speed)}`);
