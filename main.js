@@ -87,7 +87,7 @@ function get_location() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        set_location_info(`Latitude: ${latitude}, Longitude: ${longitude}`);
+        set_location_info(`Latitude: ${latitude} \n Longitude: ${longitude}`);
     }
 
     function error() {
@@ -108,7 +108,7 @@ function get_location() {
         console.log('コンパスの向き : ' + event.webkitCompassHeading);
         console.log('コンパスの精度 : ' + event.webkitCompassAccuracy);
 
-        set_device_info(`alpha: ${event.alpha}, compass: ${event.webkitCompassHeading}`);
+        set_device_info(`alpha: ${event.alpha} \n compass: ${event.webkitCompassHeading}`);
 
 
       });
