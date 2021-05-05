@@ -1,3 +1,6 @@
+let wind_speed = 0;
+let wind_direction = 1;
+
 let direction = {};
 const directions_text = `0	No wind	無風
 1	N	北
@@ -20,6 +23,12 @@ const directions_lines = directions_text.split('\n');
 for (let line of directions_lines){
     const items = line.split('\t');
     direction[items[0]] = items[1];
+}
+
+function update_wind_shape(){
+    const elem = document.getElementById('wind_shape');
+    elem.setAttribute('rotation', `0 ${Math.max(parseInt(wind_direction)-1, 0)*360/16} 0`);
+    elem.setAttribute('scale', `1 ${parseFloat(wind_speed)} 1`);
 }
 
 function NN(n){
@@ -49,7 +58,7 @@ function get_current_weather(){
         set_notice(`Now: ${current_time}\n wind: ${wind_speed} m/s\n direction: ${direction[wind_direction]}`);
 
 
-        update_particle_direction_test();
+        update_wind_shape();
 
         /*
         const elem = document.getElementById('wind_particle');
