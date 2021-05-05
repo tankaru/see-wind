@@ -80,7 +80,7 @@ function get_current_weather(){
 }
 
 function set_notice(text){
-    document.getElementById('notice').textContent = text;
+    document.getElementById('notice').innerHTML = `<pre>${text}</pre>`;
 }
 
 function init(){
