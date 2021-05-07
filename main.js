@@ -1,5 +1,4 @@
-let wind_speed = 0;
-let wind_direction = 1;
+
 
 let current_lat;
 let current_lon;
@@ -37,6 +36,7 @@ function update_wind_shape(){
     const wind = get_nearest_wind(current_lat, current_lon, amedas_json);
     console.log(wind);
     document.getElementById('location_info').insertAdjacentHTML('beforebegin', wind.name);
+    set_notice(`wind: ${wind.wind_speed} m/s\n direction: ${direction[wind.wind_direction]}`);
 
     /*
     const elem = document.getElementById('wind_shape');
@@ -52,7 +52,8 @@ function update_wind_shape(){
     model.setAttribute('gps-entity-place', `latitude: ${current_lat+0.00001}; longitude: ${current_lon+0.00001};`);
     model.setAttribute('src', "#arrow-obj");
     model.setAttribute('mtl', "#arrow-mtl");
-    model.setAttribute('scale', `1 1 ${parseInt(wind.wind_speed)}`);
+    //model.setAttribute('scale', `1 1 ${parseInt(wind.wind_speed)}`);
+    model.setAttribute('scale', `1 1 1`);
     model.setAttribute('position', "0 30 0");
     model.setAttribute('rotation', `0 ${parseInt(360 - Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
 
@@ -81,13 +82,7 @@ function get_current_weather(){
         const json = JSON.parse(e.target.responseText);
         amedas_json = json;
         //console.log(JSON.stringify(json, null, 4));
-        const location = "11001";
-        wind_speed = json[location].wind[0];
-        wind_direction = 7;//json[location].windDirection[0];
-        //console.log(json);
-        console.log(wind_speed);
-        
-        set_notice(`Now: ${current_time}\n wind: ${wind_speed} m/s\n direction: ${direction[wind_direction]}`);
+
 
 
         update_wind_shape();
