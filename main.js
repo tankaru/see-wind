@@ -118,7 +118,7 @@ function get_location() {
         current_lat = latitude;
         current_lon = longitude;
 
-        set_location_info(`Latitude: ${latitude} \n Longitude: ${longitude}`);
+        //set_location_info(`Latitude: ${latitude} \n Longitude: ${longitude}`);
 
         update_wind_shape();
     }
@@ -142,7 +142,7 @@ function get_location() {
         console.log('コンパスの精度 : ' + event.webkitCompassAccuracy);
 
         const compass_heading_str = parseInt(((event.webkitCompassHeading+360/16/2)%360)/(360/16)+1) + '';
-        set_device_info(`alpha: ${event.alpha} \n compass: ${direction[compass_heading_str]}`);
+        set_device_info(`compass: ${direction[compass_heading_str]}`);
 
 
       });
