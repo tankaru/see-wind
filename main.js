@@ -54,7 +54,7 @@ function update_wind_shape(){
     model.setAttribute('mtl', "#arrow-mtl");
     model.setAttribute('scale', `1 1 ${parseInt(wind.wind_speed)}`);
     model.setAttribute('position', "0 30 0");
-    model.setAttribute('rotation', `0 ${360 - parseInt(Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
+    model.setAttribute('rotation', `0 ${parseInt(360 - Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
 
     scene.appendChild(model);
 
