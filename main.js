@@ -83,7 +83,7 @@ function get_current_weather(){
         //console.log(JSON.stringify(json, null, 4));
         const location = "11001";
         wind_speed = json[location].wind[0];
-        wind_direction = 5;//json[location].windDirection[0];
+        wind_direction = 7;//json[location].windDirection[0];
         //console.log(json);
         console.log(wind_speed);
         
