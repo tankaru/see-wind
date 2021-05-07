@@ -83,7 +83,7 @@ function get_current_weather(){
         //console.log(JSON.stringify(json, null, 4));
         const location = "11001";
         wind_speed = json[location].wind[0];
-        wind_direction = json[location].windDirection[0];
+        wind_direction = 1;//json[location].windDirection[0];
         //console.log(json);
         console.log(wind_speed);
         
@@ -154,8 +154,9 @@ function set_device_info(text){
     document.getElementById('device_info').innerHTML = `<pre>${text}</pre>`;
 }
 function set_location_info(text){
+    console.log(text);
 
-    document.getElementById('location_info').innerHTML = `<pre>${text}</pre>`;
+    //document.getElementById('location_info').innerHTML = `<pre>${text}</pre>`;
 }
 //404 Motivation Not Found, 地球上の2地点間の距離を取得するアルゴリズム(ヒュベニ or 球面三角法)比較, https://tech-blog.s-yoshiki.com/2018/05/92/
 function hubeny(lat1, lng1, lat2, lng2) {
