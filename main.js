@@ -154,7 +154,7 @@ function get_location() {
             const model = document.getElementById('wind_shape');
             let rotation = model.getAttribute('rotation');
             rotation.y = THREE.Math.degToRad(-compassdir);
-            model.setAttribute('rotation', rotation);
+            model.setAttribute('rotation', "0 90 0");
 
             first_time = false;
         }
