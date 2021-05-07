@@ -46,6 +46,7 @@ function update_wind_shape(){
     //elem.setAttribute('scale', `1 1 ${parseInt(wind_speed)}`);
     */
 
+    /*
     let scene = document.querySelector('a-scene');
     let model = document.createElement('a-obj-model');
     model.setAttribute('id', "wind_shape");
@@ -59,6 +60,10 @@ function update_wind_shape(){
     //model.setAttribute('rotation', `0 ${parseInt(360 - Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
 
     scene.appendChild(model);
+    */
+   const model = document.getElementById('wind_shape');
+    model.setAttribute('gps-entity-place', `latitude: ${current_lat+0.00001}; longitude: ${current_lon+0.00001};`);
+
 
 }
 
@@ -139,6 +144,14 @@ function get_location() {
 
         const compass_heading_str = parseInt(((event.webkitCompassHeading+360/16/2)%360)/(360/16)+1) + '';
         set_device_info(`compass: ${direction[compass_heading_str]}`);
+
+        
+        const compassdir = event.webkitCompassHeading;// however you get the compass reading
+        const model = document.getElementById('wind_shape');
+        let pos = model.getAttribute('position');
+        pos.y = THREE.Math.degToRad(-compassdir);
+        model.setAttribute('position', pos);
+        
 
 
       });
