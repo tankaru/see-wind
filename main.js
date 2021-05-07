@@ -49,7 +49,7 @@ function update_wind_shape(){
     let scene = document.querySelector('a-scene');
     let model = document.createElement('a-obj-model');
     model.setAttribute('id', "wind_shape");
-    model.setAttribute('gps-entity-place', `latitude: ${current_lat}; longitude: ${current_lon};`);
+    model.setAttribute('gps-entity-place', `latitude: ${current_lat+0.00001}; longitude: ${current_lon+0.00001};`);
     model.setAttribute('src', "#arrow-obj");
     model.setAttribute('mtl', "#arrow-mtl");
     model.setAttribute('scale', `1 1 ${parseInt(wind.wind_speed)}`);
@@ -57,7 +57,7 @@ function update_wind_shape(){
     model.setAttribute('rotation', `0 ${360 - parseInt(Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
 
     scene.appendChild(model);
-    //<a-obj-model id="wind_shape" gps-entity-place="latitude: 35.43509; longitude: 139.61227;" src="#arrow-obj" mtl="#arrow-mtl" scale="1 1 1" position="0 30 0" rotation="0 45 0"></a-obj-model>
+
 }
 
 function NN(n){
@@ -83,7 +83,7 @@ function get_current_weather(){
         //console.log(JSON.stringify(json, null, 4));
         const location = "11001";
         wind_speed = json[location].wind[0];
-        wind_direction = 5;//json[location].windDirection[0];
+        wind_direction = 9;//json[location].windDirection[0];
         //console.log(json);
         console.log(wind_speed);
         
