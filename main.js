@@ -141,7 +141,8 @@ function get_location() {
         console.log('コンパスの向き : ' + event.webkitCompassHeading);
         console.log('コンパスの精度 : ' + event.webkitCompassAccuracy);
 
-        set_device_info(`alpha: ${event.alpha} \n compass: ${event.webkitCompassHeading}`);
+        const compass_heading_str = (((event.webkitCompassHeading+360/16/2)%360)/16+1) + '';
+        set_device_info(`alpha: ${event.alpha} \n compass: ${direction[compass_heading_str]}`);
 
 
       });
