@@ -61,7 +61,7 @@ function update_wind_shape(){
 
     scene.appendChild(model);
     */
-   const model = document.getElementById('wind_shape');
+    const model = document.getElementById('wind_shape');
     model.setAttribute('gps-entity-place', `latitude: ${current_lat+0.00001}; longitude: ${current_lon+0.00001};`);
 
 
@@ -134,6 +134,8 @@ function get_location() {
         set_location_info('Locating...');
         navigator.geolocation.getCurrentPosition(success, error);
     }
+
+    let first_time = true;
     window.addEventListener('deviceorientation', function(event) {
         console.log('方角       : ' + event.alpha);
         console.log('上下の傾き : ' + event.beta);
@@ -145,12 +147,18 @@ function get_location() {
         const compass_heading_str = parseInt(((event.webkitCompassHeading+360/16/2)%360)/(360/16)+1) + '';
         set_device_info(`compass: ${direction[compass_heading_str]}`);
 
-        
-        const compassdir = event.webkitCompassHeading;// however you get the compass reading
-        const model = document.getElementById('wind_shape');
-        let pos = model.getAttribute('position');
-        pos.y = THREE.Math.degToRad(-compassdir);
-        model.setAttribute('position', pos);
+        if (!event.webkitCompassHeading) return;
+        if (first_time){
+            //https://stackoverflow.com/questions/53459247/ar-js-trying-to-synchronize-scene-to-compass-north
+            const compassdir = event.webkitCompassHeading;// however you get the compass reading
+            const model = document.getElementById('wind_shape');
+            let rotation = model.getAttribute('rotation');
+            rotation.y = THREE.Math.degToRad(-compassdir);
+            model.setAttribute('rotation', rotation);
+
+            first_time = false;
+        }
+
         
 
 
