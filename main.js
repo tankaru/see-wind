@@ -3,6 +3,7 @@
 let current_lat;
 let current_lon;
 let amedas_json;
+let initial_compass;
 
 let direction = {};
 const directions_text = `0	No wind	無風
@@ -32,6 +33,7 @@ function update_wind_shape(){
     if (!current_lon) return;
     if (!current_lat) return;
     if (!amedas_json) return;
+    if (!initial_compass) return;
 
     const wind = get_nearest_wind(current_lat, current_lon, amedas_json);
     console.log(wind);
@@ -46,7 +48,7 @@ function update_wind_shape(){
     //elem.setAttribute('scale', `1 1 ${parseInt(wind_speed)}`);
     */
 
-    /*
+    
     let scene = document.querySelector('a-scene');
     let model = document.createElement('a-obj-model');
     model.setAttribute('id', "wind_shape");
@@ -56,13 +58,14 @@ function update_wind_shape(){
     //model.setAttribute('scale', `1 1 ${parseFloat(wind.wind_speed)}`);
     model.setAttribute('scale', `1 1 1`);
     model.setAttribute('position', "0 30 0");
-    model.setAttribute('rotation', `0 0 0`);
+    model.setAttribute('rotation', `0 ${parseInt(360 - Math.max(parseInt(initial_compass)-1, 0)*360/16)} 0`);
     //model.setAttribute('rotation', `0 ${parseInt(360 - Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
 
     scene.appendChild(model);
-    */
+    /*
     const model = document.getElementById('wind_shape');
     model.setAttribute('gps-entity-place', `latitude: ${current_lat+0.00001}; longitude: ${current_lon+0.00001};`);
+    */
 
 
 }
@@ -149,14 +152,17 @@ function get_location() {
 
         if (!event.webkitCompassHeading) return;
         if (first_time){
+            /*
             //https://stackoverflow.com/questions/53459247/ar-js-trying-to-synchronize-scene-to-compass-north
             const compassdir = event.webkitCompassHeading;// however you get the compass reading
             const model = document.getElementById('wind_shape');
             let rotation = model.getAttribute('rotation');
             rotation.y = THREE.Math.degToRad(-compassdir);
             model.setAttribute('rotation', "0 90 0");
-
+            */
+            initial_compass = event.webkitCompassHeading;
             first_time = false;
+            update_wind_shape();
         }
 
         
