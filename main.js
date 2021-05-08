@@ -39,7 +39,7 @@ function update_wind_shape(){
     const wind = get_nearest_wind(current_lat, current_lon, amedas_json);
     console.log(wind);
     //document.getElementById('location_info').insertAdjacentHTML('beforebegin', wind.name);
-    set_notice(`1319\nwind: ${wind.wind_speed} m/s\ndirection: ${direction[wind.wind_direction]}`);
+    set_notice(`1517\nwind: ${wind.wind_speed} m/s\ndirection: ${direction[wind.wind_direction]}`);
 
     /*
     const elem = document.getElementById('wind_shape');
@@ -58,7 +58,7 @@ function update_wind_shape(){
         model.setAttribute('mtl', "#arrow-mtl");
         model.setAttribute('scale', `1 1 ${parseFloat(wind.wind_speed)}`);
         //model.setAttribute('scale', `1 1 1`);
-        model.setAttribute('position', "0 30 0");
+        model.setAttribute('position', "0 50 0");
         //model.setAttribute('rotation', `0 90 0`);
         //model.setAttribute('rotation', `0 ${parseInt(initial_compass)%360} 0`);
         //model.setAttribute('rotation', `0 ${parseInt(initial_compass + 360 - Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)%360} 0`);
