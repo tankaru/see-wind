@@ -39,7 +39,7 @@ function update_wind_shape(){
     const wind = get_nearest_wind(current_lat, current_lon, amedas_json);
     console.log(wind);
     document.getElementById('location_info').insertAdjacentHTML('beforebegin', wind.name);
-    set_notice(`1014\nwind: ${wind.wind_speed} m/s\ndirection: ${direction[wind.wind_direction]} \ninit compass: ${initial_compass}`);
+    set_notice(`1024\nwind: ${wind.wind_speed} m/s\ndirection: ${direction[wind.wind_direction]} \ninit compass: ${initial_compass}`);
 
     /*
     const elem = document.getElementById('wind_shape');
@@ -60,7 +60,7 @@ function update_wind_shape(){
         model.setAttribute('scale', `1 1 1`);
         model.setAttribute('position', "0 30 0");
         //model.setAttribute('rotation', `0 90 0`);
-        model.setAttribute('rotation', `0 ${parseInt(initial_compass)} 0`);
+        model.setAttribute('rotation', `0 ${parseInt(initial_compass/2)} 0`);
         //model.setAttribute('rotation', `0 ${parseInt(360 - Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
     
         scene.appendChild(model);
