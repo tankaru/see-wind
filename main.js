@@ -29,6 +29,7 @@ for (let line of directions_lines){
     direction[items[0]] = items[1];
 }
 
+let shaped = false;
 function update_wind_shape(){
     if (!current_lon) return;
     if (!current_lat) return;
@@ -48,20 +49,24 @@ function update_wind_shape(){
     //elem.setAttribute('scale', `1 1 ${parseInt(wind_speed)}`);
     */
 
+    if (!shaped){
+        let scene = document.querySelector('a-scene');
+        let model = document.createElement('a-obj-model');
+        model.setAttribute('id', "wind_shape");
+        model.setAttribute('gps-entity-place', `latitude: ${current_lat+0.00001}; longitude: ${current_lon+0.00001};`);
+        model.setAttribute('src', "#arrow-obj");
+        model.setAttribute('mtl', "#arrow-mtl");
+        //model.setAttribute('scale', `1 1 ${parseFloat(wind.wind_speed)}`);
+        model.setAttribute('scale', `1 1 1`);
+        model.setAttribute('position', "0 30 0");
+        model.setAttribute('rotation', `0 ${parseInt(360 - initial_compass)} 0`);
+        //model.setAttribute('rotation', `0 ${parseInt(360 - Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
     
-    let scene = document.querySelector('a-scene');
-    let model = document.createElement('a-obj-model');
-    model.setAttribute('id', "wind_shape");
-    model.setAttribute('gps-entity-place', `latitude: ${current_lat+0.00001}; longitude: ${current_lon+0.00001};`);
-    model.setAttribute('src', "#arrow-obj");
-    model.setAttribute('mtl', "#arrow-mtl");
-    //model.setAttribute('scale', `1 1 ${parseFloat(wind.wind_speed)}`);
-    model.setAttribute('scale', `1 1 1`);
-    model.setAttribute('position', "0 30 0");
-    model.setAttribute('rotation', `0 ${parseInt(360 - initial_compass)} 0`);
-    //model.setAttribute('rotation', `0 ${parseInt(360 - Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)} 0`);
+        scene.appendChild(model);
 
-    scene.appendChild(model);
+        shaped = true;
+    }
+
     /*
     const model = document.getElementById('wind_shape');
     model.setAttribute('gps-entity-place', `latitude: ${current_lat+0.00001}; longitude: ${current_lon+0.00001};`);
