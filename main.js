@@ -34,7 +34,7 @@ function update_wind_shape(){
     if (!current_lon) return;
     if (!current_lat) return;
     if (!amedas_json) return;
-    if (!initial_compass) return;
+    
 
     const wind = get_nearest_wind(current_lat, current_lon, amedas_json);
     console.log(wind);
@@ -48,7 +48,7 @@ function update_wind_shape(){
     //set_notice(`${wind_direction} ${parseInt(Math.max(parseInt(wind_direction)-1, 0)*360/16)}`);
     //elem.setAttribute('scale', `1 1 ${parseInt(wind_speed)}`);
     */
-
+    if (!initial_compass) return;
     if (!shaped){
         let scene = document.querySelector('a-scene');
         let model = document.createElement('a-obj-model');
