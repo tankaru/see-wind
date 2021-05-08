@@ -38,7 +38,7 @@ function update_wind_shape(){
     const wind = get_nearest_wind(current_lat, current_lon, amedas_json);
     console.log(wind);
     document.getElementById('location_info').insertAdjacentHTML('beforebegin', wind.name);
-    set_notice(`wind: ${wind.wind_speed} m/s\n direction: ${direction[wind.wind_direction]}`);
+    set_notice(`wind: ${wind.wind_speed} m/s\ndirection: ${direction[wind.wind_direction]} \ninit compass: ${initial_compass}`);
 
     /*
     const elem = document.getElementById('wind_shape');
