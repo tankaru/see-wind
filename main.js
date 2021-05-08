@@ -39,7 +39,7 @@ function update_wind_shape(){
     const wind = get_nearest_wind(current_lat, current_lon, amedas_json);
     console.log(wind);
     document.getElementById('location_info').insertAdjacentHTML('beforebegin', wind.name);
-    set_notice(`1040\nwind: ${wind.wind_speed} m/s\ndirection: ${direction[wind.wind_direction]} \ninit compass: ${initial_compass}`);
+    set_notice(`1049\nwind: ${wind.wind_speed} m/s\ndirection: ${direction[wind.wind_direction]} \ninit compass: ${initial_compass}`);
 
     /*
     const elem = document.getElementById('wind_shape');
@@ -56,8 +56,8 @@ function update_wind_shape(){
         model.setAttribute('gps-entity-place', `latitude: ${current_lat+0.00001}; longitude: ${current_lon+0.00001};`);
         model.setAttribute('src', "#arrow-obj");
         model.setAttribute('mtl', "#arrow-mtl");
-        //model.setAttribute('scale', `1 1 ${parseFloat(wind.wind_speed)}`);
-        model.setAttribute('scale', `1 1 1`);
+        model.setAttribute('scale', `1 1 ${parseFloat(wind.wind_speed)}`);
+        //model.setAttribute('scale', `1 1 1`);
         model.setAttribute('position', "0 30 0");
         //model.setAttribute('rotation', `0 90 0`);
         model.setAttribute('rotation', `0 ${parseInt(initial_compass + 360 - Math.max(parseInt(wind.wind_direction)-1, 0)*360/16)%360} 0`);
@@ -66,6 +66,9 @@ function update_wind_shape(){
         scene.appendChild(model);
 
         shaped = true;
+        /*
+        起動時の正面がrotation.y=0に設定される。オブジェクトを北向きに回転するには、スマホのコンパスを取得して最初に回転させる必要がある。
+        */
     }
 
     /*
